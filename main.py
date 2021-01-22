@@ -1,4 +1,5 @@
 import discord
+import mojimoji
 import os
 from os.path import join, dirname
 from dotenv import load_dotenv
@@ -54,6 +55,11 @@ async def on_message(message: discord.Message):
 
         elif message.content.startswith(fastHunt):
 
+            if(not message.content.removeprefix('.').isdecimal()):
+                return
+
+            smlTxt = mojimoji.zen_to_han(message.content)
+
             if message.author.voice is None:
                 await message.channel.send("あなたはボイスチャンネルに接続していません。")
                 return
@@ -64,14 +70,14 @@ async def on_message(message: discord.Message):
             #elif message.guild.voice_client.channel != message.author.voice.channel:
                 #await message.guild.voice_client.disconnect()
                 #await message.author.voice.channel.connect()
-            elif message.guild.voice_client.channel != message.author.voice.channel:
+            elif message.author.voice.channel.members is not None and not message.guild.me in message.author.voice.channel.members:
                 await message.guild.voice_client.move_to(message.author.voice.channel)
 
             for num in range(allSound + 1):
                 if num == allSound:
                     await message.channel.send("正しいボイスナンバーを入力してください")
                     return
-                elif fastHunt + str(num) == message.content:
+                elif fastHunt + str(num) == smlTxt:
                     break
 
             message.guild.voice_client.stop()
