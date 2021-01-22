@@ -55,7 +55,7 @@ async def on_message(message: discord.Message):
 
         elif message.content.startswith(fastHunt):
 
-            if(not message.content.removeprefix('.').isdecimal()):
+            if(not message.content.removeprefix(fastHunt).isdecimal()):
                 return
 
             smlTxt = mojimoji.zen_to_han(message.content)
