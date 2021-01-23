@@ -24,14 +24,12 @@ async def on_ready():
 
 @client.event
 async def on_message(message: discord.Message):
-    # メッセージの送信者がbotだった場合は無視する
 
     try:
 
+        # メッセージの送信者がbotだった場合は無視する
         if message.author.bot:
             return
-
-        print(message.author.name + '#' + message.author.discriminator + ' : ' + message.content)
 
         if message.content == fastHunt + "list":
             await message.channel.send("ボイスの一覧、利用規約は下記をご覧ください。\n規約・使い方：https://sara-hoshikawa.com/bot/download\nボイスリスト：https://sara-hoshikawa.com/bot/voicelist")
@@ -68,8 +66,6 @@ async def on_message(message: discord.Message):
                 await message.author.voice.channel.connect()
 
             #elif message.guild.voice_client.channel != message.author.voice.channel:
-                #await message.guild.voice_client.disconnect()
-                #await message.author.voice.channel.connect()
             elif message.author.voice.channel.members is not None and not message.guild.me in message.author.voice.channel.members:
                 await message.guild.voice_client.move_to(message.author.voice.channel)
 
@@ -85,6 +81,7 @@ async def on_message(message: discord.Message):
 
     except Exception as e:
         print("err")
+        print(message.author.name + '#' + message.author.discriminator + ' : ' + message.content)
         print(e)
         return
 
